@@ -96,7 +96,7 @@ exports.getCourse = async (req, res) => {
     }
 };
 
-
+//Öğrenci kursa kayıt oluyor
 exports.enrollCourse = async (req, res) => {
 
     try {
@@ -114,13 +114,31 @@ exports.enrollCourse = async (req, res) => {
     }
 };
 
-
+// Öğrenci kayıtlı olduğu kursu bırakıyor
 exports.releaseCourse = async (req, res) => {
 
     try {
         const user = await User.findById(req.session.userID);
         await user.courses.pull({ _id: req.body.course_id });
         await user.save();
+
+        res.status(200).redirect('/users/dashboard')
+
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        })
+    }
+};
+
+// Öğretmen aktif olan kursunu siliyor
+exports.deleteCourse = async (req, res) => {
+
+    try {
+        const course= await Course.findOneAndRemove({slug:req.params.slug})
+
+        req.flash("success", `${course.name} has been created successfully`);
 
         res.status(200).redirect('/users/dashboard')
 

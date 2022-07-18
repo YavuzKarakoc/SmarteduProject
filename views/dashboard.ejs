@@ -101,6 +101,19 @@
 											</div>
 											
 										</div>
+										<% if (flashMessages) { %>
+
+											<% if (flashMessages.success) { %>
+											<div class="alert alert-success">
+											<%= flashMessages.success %>
+											 </div>
+										
+											<% } else if (flashMessages.error) { %>
+											<div class="alert alert-danger">
+												<%= flashMessages.error %>
+											</div>
+											<% } %>
+										 <% } %>
 
 									</div><!-- end col -->
 								</div><!-- end row -->
@@ -118,8 +131,17 @@
 												</div>
 												<div class="course-desc">
 													<p><%= courses[i].description %> </p>
+													<div >
+														<ul style="display: flex; list-style-type:none; justify-content: space-around; ">
+															<li><button class="btn btn-primary rounded-0 text-white"><span>UPDATE</span></button></li>
+															<li><a href="/courses/<%= courses[i].slug %>?_method=DELETE"
+																onclick="return confirm('ARE YOU SURE')"
+																class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a></li>
+														</ul>
+													</div>
 												</div>
 											</div>
+											
 										</div>
 									</div><!-- end col -->
 
