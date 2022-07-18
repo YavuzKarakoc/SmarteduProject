@@ -38,6 +38,7 @@ exports.getContactPage= (req, res)=>{
 
 
 exports.sendEmail =async (req, res) =>{
+    try{
     // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const outputMessage= `
     <h1>Message Details</h1>
@@ -60,7 +61,7 @@ exports.sendEmail =async (req, res) =>{
         },
       });
     
-     try{
+     
          // send mail with defined transport object
       let info = await transporter.sendMail({
         from: '"Smart EDU Contact From" <yavuzkarakoctest@hotmail.com>', // sender address
@@ -76,12 +77,17 @@ exports.sendEmail =async (req, res) =>{
       // Preview only available when sending through an Ethereal account
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
       // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+      req.flash("succes", "We Received your message succesfully")
       
       res.status(200).redirect('contact')
      }
      catch(err){
-        console.log("hata oldu"),
-        res.status(200).redirect('contact')
+    //   req.flash("error", `Something happened! ${err}`);
+         req.flash("error", `Something went wrong!`);
+
+        console.log("hata oldu");
+        res.status(200).redirect('contact');
      }
 
 }
