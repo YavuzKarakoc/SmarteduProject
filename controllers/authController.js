@@ -74,10 +74,31 @@ exports.getDashboardPage= async (req, res)=>{
   const user = await User.findOne({_id:req.session.userID}).populate('courses')   // clientden gelen userin idsine göre user çağırır  POPULATE de bağıntılı kısmı cagırmamız yarar
   const categories = await Category.find();                         //tüm kategorileri çağırır
   const courses = await Course.find({user:req.session.userID});
+  const users = await User.find();
   res.status(200).render('dashboard', {
       page_name:"dashboard",
       user,
       categories,
-      courses
+      courses,
+      users
   }); 
 }
+
+
+exports.deleteUser = async (req, res) => {
+
+  try {
+      const user= await User.findByIdAndRemove(req.params.id)
+      const course= await Course.deleteMany({user:req.params.id})
+
+      // req.flash("success", `${user.name} has been deleted successfully`);
+
+      res.status(200).redirect('/users/dashboard')
+
+  } catch (error) {
+      res.status(400).json({
+          status: 'fail',
+          error,
+      })
+  }
+};

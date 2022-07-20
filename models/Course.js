@@ -26,7 +26,7 @@ const CourseSchema = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Category'
     },
-    user: {
+    user: { //kursu oluşturan öğretmen bağlantısı
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     }

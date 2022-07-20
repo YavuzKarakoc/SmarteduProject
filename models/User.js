@@ -24,7 +24,7 @@ const UserSchema = new Schema({
         ],
         default:"student"
     },
-    courses:[{
+    courses:[{  //kursa kayıt olan öğrenci bağıntısı
         type: mongoose.Schema.Types.ObjectId,
         ref:'Course'
     }]
